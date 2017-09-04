@@ -34,7 +34,8 @@ public class ReceiveUser extends BaseModel {
 
     @Column(name="WeChatId")
     private String weChatId;
-
+    @Column(name="Url")
+    private String url;
     @Override
     public Long getId() {
         return id;
@@ -101,6 +102,14 @@ public class ReceiveUser extends BaseModel {
         this.weChatId = weChatId;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public String toString() {
         return "ReceiveUser{" +
@@ -112,6 +121,7 @@ public class ReceiveUser extends BaseModel {
                 ", shortMessageId=" + shortMessageId +
                 ", wechatTopColor='" + wechatTopColor + '\'' +
                 ", weChatId='" + weChatId + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

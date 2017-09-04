@@ -55,7 +55,7 @@ public class DruidConfiguration {
                                       @Value("${spring.datasource.max-wait}") int maxwait,
                                       @Value("${spring.datasource.max-active}") int maxactive,
                                       @Value("${spring.datasource.test-on-borrow}") boolean testonborrow
-    ) {System.out.println("username====="+username);
+    ) {
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setDriverClassName(driver);
         druidDataSource.setUrl(url);

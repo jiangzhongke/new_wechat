@@ -5,7 +5,6 @@ import com.baolishang.springboot.configs.SystemConfiguration;
 import com.baolishang.springboot.exceptions.BaseException;
 import com.baolishang.springboot.models.ReceiveUser;
 import com.baolishang.springboot.models.WeChatTemplateDetail;
-import com.baolishang.springboot.services.SellerService;
 import com.baolishang.springboot.services.WechatModelService;
 import com.baolishang.springboot.utils.ResponseUtils;
 import com.baolishang.springboot.utils.SafeUtils;
@@ -33,8 +32,6 @@ import java.util.List;
 public class SellerController {
     private static final Logger logger = LoggerFactory.getLogger(SellerController.class);
 
-    @Autowired
-    private SellerService sellerService;
     @Autowired
     private WechatModelService wechatModelService;
     @Scope("prototype")
@@ -70,6 +67,7 @@ public class SellerController {
         WeChatTemplateDetail d1 = list1.get(1);
         logger.info(d1.toString());
         logger.info("list1"+list1.toString());
+
         logger.info("==================================================");
         return ResponseUtils.restResponse("login_success", "登录成功", HttpStatus.OK);
     }
