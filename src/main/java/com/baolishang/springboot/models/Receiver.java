@@ -8,7 +8,7 @@ import javax.persistence.*;
  * Created by joe on 2017/8/29.
  */
 @Entity
-@Table(name="NoticeUser")
+@Table(name="t_receiver")
 public class Receiver extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,7 +26,17 @@ public class Receiver extends BaseModel {
     private String openId;
 
     @Column(name="Status")
-    private Byte status;
+    private boolean status;
+
+    public Receiver() {
+    }
+
+    public Receiver(String name, String phone, String openId, boolean status) {
+        this.name = name;
+        this.phone = phone;
+        this.openId = openId;
+        this.status = status;
+    }
 
     @Override
     public Long getId() {
@@ -62,11 +72,23 @@ public class Receiver extends BaseModel {
         this.openId = openId;
     }
 
-    public Byte getStatus() {
+
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Receiver{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", openId='" + openId + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

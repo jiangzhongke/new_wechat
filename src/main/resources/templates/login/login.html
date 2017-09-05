@@ -1,114 +1,153 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit"/>
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title></title>
-
-    <script type="text/javascript" src="../js/jquery-1.9.0.js"></script>
-    <script type="text/javascript" src="../js/login.js"></script>
-    <script type="text/javascript" src="../js/jsencrypt.js"></script>
-    <link rel="stylesheet" type="text/css" href="../css/login.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/sina.css"/>
     <script type="text/javascript">
-        $(document).ready(function () {
-            var publicKey = "${public_key}";
-            var encrypt = new JSEncrypt();
-            encrypt.setPublicKey(publicKey);
-
-            function goLogin() {
-                var $err = $('.err');
-
-                if ($.trim($("#loginname").val()) == "") {
-                    $("#loginname").focus();
-                    $err.text("请输入用户名");
-                    return false;
-                }
-                if ($.trim($("#loginpwd").val()) == "") {
-                    $err.text("请输入密码");
-                    $("#loginpwd").focus();
-                    return false;
-                }
-                if ($.trim($("#verify").val()) == "") {
-                    $err.text("请先填写验证码");
-                    $("#verify").focus();
-                    return false;
-                }
-                $('.button').prop('disabled', true);
-                $.ajax({
-                    url: "/seller/do_login",
-                    type: 'POST',
-                    dataType: 'text',
-                    data: { login_name: $.trim($("#loginname").val()),
-                            login_password: encrypt.encrypt($.trim($("#loginpwd").val())),
-                            verify: $.trim($("#verify").val())},
-                    success: function (data) {
-                        loginOK(data);
-                    },
-                    error: function (error, textStatus, errorThrown) {
-                        var responseJson = jQuery.parseJSON(error.responseText);
-                        if (responseJson.code == "validation_code_not_correct" || responseJson.code == "login_failed") {
-                            changeKaptcha();
-                       }
-                        $err.text(responseJson.message);
-                        changeKaptcha();
+        (function(doc,win){
+            var docEl = doc.documentElement,resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function(){
+                    var clientWidth = docEl.clientWidth;
+                    if(!clientWidth) return;
+                    if(clientWidth>=750){
+                        docEl.style.fontSize = '100px';
                     }
-                });
-            }
-            function loginOK(data) {
-                showpopmsg("登录成功",300,25,5000) ;
-                window.location.href= "/account/home";
-            };
-            var $button = $('.button');
-
-            //判断条件请完善
-            $button.click(function () {
-                goLogin()
-            });
-
-            document.onkeydown = function (event) {
-                e = event ? event : (window.event ? window.event : null);
-                if (e.keyCode == 13) {
-                    //执行的方法
-                    goLogin();
-                }
-            }
-        });
+                    else{
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    }
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+            recalc();
+        })(document,window);
     </script>
-
 </head>
 <body>
-
-<div class="login">
-    <div class="login_form">
-        <h2>保理商管理系统</h2>
-        <div class="userName">
-            <img src="../img/user.png"/>
-            <input type="text" name="loginname" id="loginname" value="" placeholder="请输入用户名"/>
-        </div>
-        <div class="passWord">
-            <img src="../img/psd.png"/>
-            <input type="password" name="loginpwd" id="loginpwd" value="" maxlength="12" placeholder="请输入密码"/>
-        </div>
-        <div class="yzm">
-            <img id="kaptcha" onClick="javascript:changeKaptcha();"
-                 src="/captchaImage/kaptcha">
-            <input type="text" name="verify" id="verify" maxlength="4" value="" placeholder="请输入验证码"/>
-        </div>
-        <p class="err"></p>
-        <div class="button">
-            <a href="javascript:;">登录</a>
-        </div>
-    </div>
-    <div class="login_detail">
-        <h3>保金所服务条件</h3>
-        <p>作为本系统的注册用户，需负责维护您的账户保密和安全，不能讲您的账户信息透露给其他人或使用其他人的账户。</p>
-        <p style="margin-top: 20px;"> 如有问题请联系保金所客服:</p>
-        <p class="last">400-822-8587(10:00 - 18:00 周一至周五)</p>
-    </div>
-    <img src="../img/login-bg2.png" alt="" class="bgPic"/>
+<div class="pop">
+    <p>你输入的信息不合法...</p>
 </div>
-<!--<div id="ajaxshow" class="ajaxouter"><div id="ajaxmsg" class="ajaxbox"></div></div>-->
+<header class="header border1px">
+    <img src="../img/bank-logo.png"/>
+</header>
+<div class="information find-password bind-bank-card-add">
+    <ul class="mlist">
+        <li class=" clearfix"><span class="name fl"><label for="real_name">姓名</label></span><span class="yname fr"><input type="text" name="" id="real_name" value=""  class="yl-number" /></span></li>
+        <li class=" clearfix"><span class="name fl"><label for="mobile">手机号</label></span><span class="yname fr"><input type="number" name="" id="mobile" value=""  class="yl-number" oninput="if(value.length>11)value=value.slice(0,11)" /></span></li>
+        <li class=" clearfix"><span class="name fl" style="width: 30%">
+			<input type="text" id = "validcode" placeholder="验证码" class="yzm yzn"/> </span><span class="yname last fr"><input type="button" onclick="goGetSms(this);" value=" 短信获取" class="send-yzm"/></span>
+        </li>
+
+    </ul>
+</div>
+<div class="button"><a  onclick="goBindVerify();" class="tipButton">绑定微信</a></div>
 
 </body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript">
+    var countdown=60;
+    function settime(val) {
+        if (countdown == 0) {
+            val.removeAttribute("disabled");
+            val.value="发送验证码";
+            countdown = 60;
+            return;
+        } else {
+            val.setAttribute("disabled", true);
+            val.value="重新发送(" + countdown + ")";
+            countdown--;
+        }
+        setTimeout(function() {
+            settime(val)
+        },1000)
+    }
+    function goGetSms(val) {
+        if ($.trim($("#real_name").val()) == "") {
+            showpop("请填写姓名",  1000);
+            $("#real_name").focus();
+            return false;
+        }
+        if ($.trim($("#mobile").val()) == "") {
+            showpop("请填写手机",  1000);
+            $("#mobile").focus();
+            return false;
+        }
+        $.ajax({
+            url: "/wx/sms",
+            type: 'POST',
+            dataType: 'text',
+            data: {
+                real_name: $.trim($("#real_name").val()),
+                mobile: $.trim($("#mobile").val())
+            },
+            success: function (data) {
+                eval("var result=" + data);
+                showpop(result.message,2000);
+                settime(val);
+            },
+            error: function (error, textStatus, errorThrown) {
+                var responseJson = jQuery.parseJSON(error.responseText);
+                showpop(responseJson.message,2000);
+            }
+        });
+
+
+    }
+
+    function goBankVerifyOK(data) {
+        eval("var result=" + data);
+        showpop(result.message, 2000);
+        location.reload();
+
+    }
+    function goBindVerify() {
+        if ($.trim($("#validcode").val()) == "") {
+            showpop("请填写验证码",  1000);
+            $("#validcode").focus();
+            return false;
+        }
+        var $this= $('.button');
+        if($this.hasClass('expired')){
+            return
+        }else{
+            $this.addClass('expired');
+        }
+        $("input,select").attr("disabled","disabled");
+        $.ajax({
+            url: "/wx/bindWexin",
+            type: 'POST',
+            dataType: 'text',
+            data: {
+                validcode: $.trim($("#validcode").val())
+            },
+            success: goBankVerifyOK,
+            error: function (error, textStatus, errorThrown) {
+                var responseJson = jQuery.parseJSON(error.responseText);
+                showpop(responseJson.message, 2000);
+                $("input,select").removeAttr("disabled");
+                $this= $('.button');
+                $this.removeClass('expired');
+            }
+        });
+    }
+    function showpop(msg,time){
+        $(".pop").html(msg);
+        $(".pop").show();
+        if (time>0){
+            setTimeout("hidepop()",time);
+        }
+    }
+    function hidepop(){
+        $(".pop").html("");
+        $(".pop").hide();
+    }
+</script>
+
+
 </html>
