@@ -43,7 +43,7 @@ public class WxUserController  extends GenericController {
         String code = request.getParameter("code");
         WxMpOAuth2AccessToken accessToken;
         WxMpUser wxMpUser;
-        String weixinAcct = "uhaduihaiudhuidsh";
+        String weixinAcct = "";
         try {
             accessToken = this.wxMpService.oauth2getAccessToken(code);
             wxMpUser = this.wxMpService.getUserService()
